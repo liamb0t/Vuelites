@@ -23,7 +23,7 @@ const emit = defineEmits(['exitFullscreen', 'toggleMute'])
 
   const videoElement = ref(null);
   const audioElement = ref(null);
-  const playing = ref(false);
+  const playing = ref(true);
   const currentTime = ref(0);
   const duration = ref(0);
   const { isGridView } = storeToRefs(store)
