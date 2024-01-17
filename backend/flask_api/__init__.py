@@ -4,7 +4,7 @@ from flask_cors import CORS
 import praw
 
 app = Flask(__name__)
-CORS(app, origins=['https://soccer-highlights-frontend.onrender.com'])
+CORS(app, origins=['https://vuelites.onrender.com'])
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
@@ -18,6 +18,8 @@ client_secret = os.environ.get('CLIENT_SECRET')
 user_agent = os.environ.get('USER_AGENT')
 username = os.environ.get('USERNAME')
 password = os.environ.get('PASSWORD')
+
+print(id, client_secret, user_agent, username, password)    
 
 reddit = praw.Reddit(
     client_id=id,
