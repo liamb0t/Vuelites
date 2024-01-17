@@ -43,20 +43,24 @@ const imgUrl = ref(soccerIcon)
 
 const updateimg = () => { 
   const subreddit = route.params.subreddit
-  const category = Utils.getImgUrl(subreddit)
+  
+  if (subreddit) {
+    const category = Utils.getImgUrl(subreddit)
 
-  if (category) {
-    imgUrl.value = category.img_url
+    if (category) {
+      imgUrl.value = category.img_url
+    }
+    
+    else {
+      HighlightService.getSubredditImg(subreddit)
+      .then((response) => {
+            imgUrl.value = response.data.img_url;
+      })
+      .catch((error) => { 
+          console.log(error);
+      });
+    }
   } 
-  else {
-    HighlightService.getSubredditImg(subreddit)
-    .then((response) => {
-          imgUrl.value = response.data.img_url;
-    })
-    .catch((error) => { 
-        console.log(error);
-    });
-  }
 }
 
 const loadHighlights = () => {

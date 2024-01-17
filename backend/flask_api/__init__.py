@@ -19,8 +19,6 @@ user_agent = os.environ.get('USER_AGENT')
 username = os.environ.get('USERNAME')
 password = os.environ.get('PASSWORD')
 
-print(id, client_secret, user_agent, username, password)    
-
 reddit = praw.Reddit(
     client_id=id,
     client_secret=client_secret,
