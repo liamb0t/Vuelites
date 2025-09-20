@@ -1,0 +1,1 @@
+.volume-slider-custom [data-slot=slider-range]{background:rgb(var(--league-color,16 185 129))!important}.volume-slider-custom [data-slot=slider-thumb]{background:#fff!important;border-color:rgb(var(--league-color,16 185 129))!important}.volume-slider-custom [data-slot=slider-track]{background:#6b728080!important}
