@@ -7,7 +7,7 @@ backend_path = os.path.join(os.path.dirname(__file__), '..', 'backend')
 sys.path.append(backend_path)
 
 # Point Flask to Nuxt's build directory
-dist_dir = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
+dist_dir = os.path.join(os.path.dirname(__file__), "..", "frontend", ".output", "public")
 
 # Create new Flask app instance that serves Nuxt frontend
 app = Flask(__name__, static_folder=dist_dir, static_url_path="")

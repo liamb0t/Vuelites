@@ -1,12 +1,13 @@
 {
   "version": 2,
+  "buildCommand": "cd frontend && npm install && npm run build",
   "builds": [
     {
       "src": "api/index.py",
       "use": "@vercel/python"
     },
     {
-      "src": "frontend/dist/**",
+      "src": "frontend/.output/public/**",
       "use": "@vercel/static"
     }
   ],
@@ -17,15 +18,15 @@
     },
     {
       "src": "/_nuxt/(.*)",
-      "dest": "frontend/dist/_nuxt/$1"
+      "dest": "frontend/.output/public/_nuxt/$1"
     },
     {
       "src": "/img/(.*)",
-      "dest": "frontend/dist/img/$1"
+      "dest": "frontend/.output/public/img/$1"
     },
     {
       "src": "/(favicon.ico|robots.txt)",
-      "dest": "frontend/dist/$1"
+      "dest": "frontend/.output/public/$1"
     },
     {
       "src": "/(.*)",
