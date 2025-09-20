@@ -1,5 +1,5 @@
 export const useHighlights = () => {
-    const baseURL = 'http://127.0.0.1:5000'
+    const baseURL = ''
     
     const getLeagueHighlights = async (league: string, query: Object) => {
         const {data, status} = useFetch<Object>(`/api/highlights/league/${league}`, {

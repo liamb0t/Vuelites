@@ -19,7 +19,7 @@ const comments = ref(null)
 
 const fetchComments = async () => {
     loading.value = true
-    comments.value = await useFetch(`http://127.0.0.1:5000/api/comments/${props.highlight.id}/'top'`, {
+    comments.value = await useFetch(`/api/comments/${props.highlight.id}/'top'`, {
         method: 'GET',
     }).then((res) => {
         return res.data.value.comments

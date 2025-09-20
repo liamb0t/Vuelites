@@ -3,7 +3,7 @@ const route = useRoute()
 const highlightId = route.params.id as string
 
 // Fetch individual highlight data
-const { data: highlightData, pending, error } = await useFetch(`http://127.0.0.1:5000/api/highlights/${highlightId}`)
+const { data: highlightData, pending, error } = await useFetch(`/api/highlights/${highlightId}`)
 
 // If highlight not found, show 404
 if (error.value) {
