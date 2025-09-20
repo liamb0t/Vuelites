@@ -16,33 +16,29 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
 
-id = 'ougRB1VYJVa8kH9XyphsnA'
-client_secret = 'RUTKKzZFxArP328gG2emXZgRhiZHLw'
-user_agent = '<console:SopranosBot:1.0 (by u/AlbertBareseBarese)>'
-username = 'AlbertBareseBarese'
-password = '8Stevieg8@'
-
 reddit = praw.Reddit(
-    client_id=id,
-    client_secret=client_secret,
-    user_agent=user_agent,
-    username=username,
-    password=password
+    client_id=os.getenv('REDDIT_CLIENT_ID'),
+    client_secret=os.getenv('REDDIT_CLIENT_SECRET'),
+    user_agent=os.getenv('REDDIT_USER_AGENT', '<console:SopranosBot:1.0 (by u/AlbertBareseBarese)>'),
+    username=os.getenv('REDDIT_USERNAME'),
+    password=os.getenv('REDDIT_PASSWORD')
 )
 
 r = redis.Redis(
-    host='redis-17054.c82.us-east-1-2.ec2.redns.redis-cloud.com',
-    port=17054,
+    host=os.getenv('REDIS_HOST'),
+    port=int(os.getenv('REDIS_PORT', 6379)),
     decode_responses=True,
-    username="default",
-    password="YIPMUZin37cqMlrmjl3x2HuynaWFz5aY",
+    username=os.getenv('REDIS_USERNAME', 'default'),
+    password=os.getenv('REDIS_PASSWORD'),
 )
 
 ### setting up MongoDB Connection
 try:
-    # Use the MongoDB URI from the Nuxt frontend or default to local MongoDB
-    mdb_password = 'keHxN5YJ3YXjnVdu'
-    uri = f"mongodb+srv://liammcl33:{mdb_password}@cluster0.kh4xxy0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    # Use the MongoDB URI from environment variables
+    mdb_username = os.getenv('MONGODB_USERNAME')
+    mdb_password = os.getenv('MONGODB_PASSWORD')
+    mdb_cluster = os.getenv('MONGODB_CLUSTER', 'cluster0.kh4xxy0.mongodb.net')
+    uri = f"mongodb+srv://{mdb_username}:{mdb_password}@{mdb_cluster}/?retryWrites=true&w=majority&appName=Cluster0"
     mongo_client = MongoClient(uri)
     
     # Connect to the goalrush database
