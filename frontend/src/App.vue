@@ -50,7 +50,11 @@ onBeforeMount(() => {
 })
 
 onUnmounted(() => {
-  document.removeEventListener('click', closeSearchBar())
+  // Clean up back button event listener
+  const backIcon = document.querySelector('.search-bar .back-icon');
+  if (backIcon) {
+    backIcon.removeEventListener('click', closeSearchBar);
+  }
 })
 </script>
 

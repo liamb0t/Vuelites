@@ -73,7 +73,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-<div class="container" @click="toggleOptions" ref="container">
+<div @click="toggleOptions" ref="container" :class="{ 'container-active': showOptions, 'container': !showOptions }">
     <div class="container-inner">
         <div class="flex">
             <img v-show="imgUrl" :src="imgUrl" alt="">
@@ -99,7 +99,7 @@ onBeforeUnmount(() => {
 </div>
 </template>
 <style scoped>
-.container {
+.container, .container-active {
     position: relative;
     width: 100%;
     min-width: 11.5rem;
@@ -107,9 +107,23 @@ onBeforeUnmount(() => {
     border: 1px solid var(--color-border);
     border-radius: 10px;
 }
-.container:hover {
-    cursor: pointer;
+
+.container-active {
+  margin-right: 1rem;
+  border-radius: 0px;
+  border-bottom: none;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border: 1px solid var(--color-border-strong);
 }
+
+.container, .container-active:hover {
+  cursor: pointer;
+}
+.container:hover {
+  border: 1px solid var(--color-border-strong);
+}
+
 .container-inner{ 
    display: flex;
    align-items: center;
@@ -135,13 +149,15 @@ span {
   font-weight: 600;
 }
 .options {
-    background-color: var(--color-background);
-    position: absolute;
-    width: 100%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* horizontal offset, vertical offset, blur radius, spread radius, color */
-    -webkit-box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* For Safari */
-    -moz-box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* For old Firefox versions */
-    z-index: 999;
+  background-color: var(--color-background);
+  position: absolute;
+  width: 101%;
+  border: 1px solid var(--color-border-strong);
+  border-top: none;
+  z-index: 999;
+  left: -1px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 :root.dark .options {
   background-color: var(--color-background-mute);

@@ -37,11 +37,17 @@ const fetchSuggestions = () => {
       pages.value = 1
       HighlightService.getSearchResults(subreddits.value, searchQuery.value, timeFilter.value, sortedByFilter.value)
       .then((response) => {
-          suggestions.value = response.data['search_results'];
+          if (response && response.data && response.data.search_results) {
+            suggestions.value = response.data.search_results;
+          } else {
+            console.warn('Invalid response format:', response);
+            suggestions.value = [];
+          }
           isLoading.value = false
       })
       .catch((error) => { 
-          console.log(error);
+          console.log('Search error:', error);
+          suggestions.value = [];
           isLoading.value = false
       });
     }
@@ -150,7 +156,9 @@ const tagText = computed(() => {
         <div class="search-tag-container" v-if="subreddits != 'soccer'">
           <div class="search-tag-inner">
             <img v-if="subreddits[0].icon" :src="subreddits[0].icon" alt="">
-            <span>{{ tagText }}</span>
+            <div style="display: flex; align-items: center;">
+              <span>{{ tagText }}</span>
+            </div>
           </div>
         </div>
         <input

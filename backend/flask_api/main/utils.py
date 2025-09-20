@@ -126,7 +126,7 @@ def get_posts(subreddit, sort, time_filter, limit, params):
     elif sort == 'hot':
         return subreddit.hot(limit=limit, params=params)
 
-def get_highlights(r, sort, after, time_filter='week', content_type='none', limit=30):
+def get_highlights(r, sort, after, time_filter='week', content_type='none', limit=100):
     highlights = []
     subreddit = reddit.subreddit(r)     
     # Parameters for fetching submissions

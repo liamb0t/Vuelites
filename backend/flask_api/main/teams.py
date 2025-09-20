@@ -177,12 +177,12 @@ eredivisie = [
 ### all the supported leagues currently available on Vuelites
 
 leagues = {
-    'PremierLeague': premier_league, 
-    'LaLiga': la_liga, 
-    'Bundesliga': bundesliga,
-    'SerieA': serie_a,
-    'Ligue1': ligue_1,
-    'MLS': mls,
-    'EFL': efl,
-    'Eredivisie': eredivisie,
-    }
+    'premierleague': premier_league, 
+    'laliga': la_liga, 
+    'bundesliga': bundesliga,
+    'seriea': serie_a,
+    'ligue1': ligue_1,
+    'mls': mls,
+    'efl': efl,
+    'eredivisie': eredivisie,
+}
