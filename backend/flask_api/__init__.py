@@ -8,7 +8,12 @@ from pymongo import MongoClient
 from urllib.parse import quote_plus
 
 app = Flask(__name__)
-CORS(app, origins=['http://localhost:3000'])
+CORS(app, origins=[
+    'http://localhost:3000',
+    'https://goalrush-six.vercel.app',
+    'https://goalrush-git-main-liam-mclaughlins-projects.vercel.app',
+    'https://goalrush-b26xszc68-liam-mclaughlins-projects.vercel.app'
+])
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 
 ### setting up the Reddit Instance
