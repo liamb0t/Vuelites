@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "cd frontend && npm install && npm run build && cp -r .output/public dist",
+  "buildCommand": "cd frontend && npm install && npm run build",
   "builds": [
     {
       "src": "api/index.py",
