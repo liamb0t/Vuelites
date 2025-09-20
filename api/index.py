@@ -1,6 +1,6 @@
 import os
 import sys
-from flask import Flask, send_from_directory
+from flask import send_from_directory
 
 # Add the backend directory to Python path for API imports
 backend_path = os.path.join(os.path.dirname(__file__), '..', 'backend')
@@ -9,18 +9,12 @@ sys.path.append(backend_path)
 # Point Flask to Nuxt's build directory
 dist_dir = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
 
-# Create new Flask app instance that serves Nuxt frontend
-app = Flask(__name__, static_folder=dist_dir, static_url_path="")
+# Import your existing Flask app
+from flask_api.main.routes import app
 
-# Import and register your existing API routes
-from flask_api.main.routes import main
-from flask_api import app as original_app
-
-# Copy configuration from original app
-app.config.update(original_app.config)
-
-# Register API blueprints
-app.register_blueprint(main, url_prefix='/api')
+# Update the static folder to serve Nuxt files
+app.static_folder = dist_dir
+app.static_url_path = ""
 
 # Root: serve Nuxt index.html
 @app.route("/")
