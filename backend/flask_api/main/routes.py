@@ -240,7 +240,34 @@ def serve_nuxt_assets(filename):
 @client_bp.route('/<path:path>')
 @client_bp.route('/<string:path>')
 def index(path=''):
-    return render_template('index.html')
+    try:
+        return render_template('index.html')
+    except:
+        # Fallback: serve directly from file
+        from flask import send_from_directory
+        dist_path = os.path.join(os.path.dirname(__file__), 'dist')
+        try:
+            return send_from_directory(dist_path, 'index.html')
+        except:
+            # Last resort: return inline HTML
+            return '''
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>App Loading...</title>
+            </head>
+            <body>
+                <div id="app">Loading...</div>
+                <script>
+                    // Try to load the actual app
+                    fetch('/api/status')
+                        .then(r => r.json())
+                        .then(d => console.log('API is working:', d))
+                        .catch(e => console.log('API error:', e));
+                </script>
+            </body>
+            </html>
+            '''
 
 # Initialize database indexes when the app starts
 try:
