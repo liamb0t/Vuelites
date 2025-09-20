@@ -221,8 +221,8 @@ def test():
 
 client_bp = Blueprint('client',
     __name__,
-    static_folder='dist',
-    template_folder='dist',
+    static_folder=os.path.join(os.path.dirname(__file__), 'dist'),
+    template_folder=os.path.join(os.path.dirname(__file__), 'dist'),
     static_url_path='/'
     )
 
