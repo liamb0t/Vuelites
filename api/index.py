@@ -2,7 +2,11 @@ import os
 import sys
 
 # Add the backend directory to Python path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'backend'))
+backend_path = os.path.join(os.path.dirname(__file__), '..', 'backend')
+sys.path.append(backend_path)
+
+# Ensure the working directory is set correctly for template finding
+os.chdir(os.path.join(backend_path, 'flask_api', 'main'))
 
 from flask_api import app
 
