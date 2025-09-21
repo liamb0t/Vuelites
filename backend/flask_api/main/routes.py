@@ -1,4 +1,5 @@
 from flask import jsonify, request, Blueprint, json, render_template
+from backend.flask_api.main.config import r
 from flask_api.main.teams import leagues
 from flask_api.main.utils import get_highlights, get_comments, get_redditor_profile, \
     get_redditor_submissions, search, load_directory, search_subreddits, \
@@ -127,14 +128,14 @@ def highlights_by_search(query):
             try:
                 highlight_id = save_search_result(result)
                 if highlight_id:
-                    highlight_ids.apiend(highlight_id)
+                    highlight_ids.append(highlight_id)
                     # Keep the original format but add highlight_id for frontend URLs
                     result['highlight_id'] = highlight_id
-                    processed_results.apiend(result)
+                    processed_results.append(result)
             except Exception as e:
                 print(f"Error saving search result: {e}")
                 # Still include the result even if saving fails
-                processed_results.apiend(result)
+                processed_results.append(result)
         
         # Cache the search results
         if highlight_ids:
@@ -178,7 +179,7 @@ def get_subreddits(query):
     for subreddit in subreddits:
         result = serialize_subreddit(subreddit)
         if result is not None:
-            data.apiend(result)
+            data.append(result)
     sorted_results = sorted(data, key=lambda x: x['subscribers'], reverse=True)
     return jsonify({
         'search_results': sorted_results
