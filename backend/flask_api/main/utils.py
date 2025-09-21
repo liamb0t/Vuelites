@@ -1,4 +1,4 @@
-from flask_api import reddit, headers
+from backend.flask_api.main.config import reddit, headers
 import requests
 from bs4 import BeautifulSoup as bs
 from datetime import datetime

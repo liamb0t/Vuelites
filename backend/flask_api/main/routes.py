@@ -1,5 +1,3 @@
-import os
-from flask_api import app, r
 from flask import jsonify, request, Blueprint, json, render_template
 from flask_api.main.teams import leagues
 from flask_api.main.utils import get_highlights, get_comments, get_redditor_profile, \
@@ -10,9 +8,9 @@ from flask_api.main.database import (
     get_highlights_by_ids, get_highlight_by_id, create_indexes
 )
 
-main = Blueprint('main', __name__)
+api = Blueprint('api', __name__)
 
-@app.route("/api/highlights/subreddit/<string:subreddit>", methods=["GET"])
+@api.route("/api/highlights/subreddit/<string:subreddit>", methods=["GET"])
 def highlights_subreddit(subreddit):
     if subreddit not in leagues.values() and subreddit != 'soccer':
         return jsonify({
@@ -37,7 +35,7 @@ def highlights_subreddit(subreddit):
         'highlights': highlights,
     })
 
-@app.route("/api/highlights/league/<string:league>", methods=["GET"])
+@api.route("/api/highlights/league/<string:league>", methods=["GET"])
 def highlights_league(league):
     if league not in leagues:
         return jsonify({
@@ -65,20 +63,20 @@ def highlights_league(league):
     })
 
 
-@app.route("/api/comments/<string:id>/<string:sort>")
+@api.route("/api/comments/<string:id>/<string:sort>")
 def comments(id, sort='top'):
     return jsonify({
         'comments': get_comments(id, sort)
     })
   
-@app.route("/api/redditor/<string:username>")
+@api.route("/api/redditor/<string:username>")
 def redditor_profile(username):
     data = get_redditor_profile(username)
     return jsonify({
         'profile': data
     })
 
-@app.route("/api/highlights/redditor/<string:username>")
+@api.route("/api/highlights/redditor/<string:username>")
 def highlights_by_redditor(username):
     after = request.args.get('after')
     data = get_redditor_submissions(username, after)
@@ -87,7 +85,7 @@ def highlights_by_redditor(username):
     })
 
 
-@app.route("/api/highlights/search/<string:query>")
+@api.route("/api/highlights/search/<string:query>")
 def highlights_by_search(query):
     try:
         subreddits = request.args.getlist('r'
@@ -129,14 +127,14 @@ def highlights_by_search(query):
             try:
                 highlight_id = save_search_result(result)
                 if highlight_id:
-                    highlight_ids.append(highlight_id)
+                    highlight_ids.apiend(highlight_id)
                     # Keep the original format but add highlight_id for frontend URLs
                     result['highlight_id'] = highlight_id
-                    processed_results.append(result)
+                    processed_results.apiend(result)
             except Exception as e:
                 print(f"Error saving search result: {e}")
                 # Still include the result even if saving fails
-                processed_results.append(result)
+                processed_results.apiend(result)
         
         # Cache the search results
         if highlight_ids:
@@ -158,7 +156,7 @@ def highlights_by_search(query):
             'error': 'Search failed'
         }), 500
 
-@app.route("/api/highlights/<string:highlight_id>")
+@api.route("/api/highlights/<string:highlight_id>")
 def get_highlight_by_highlight_id(highlight_id):
     """Get individual highlight by highlight_id"""
     highlight = get_highlight_by_id(highlight_id)
@@ -173,26 +171,26 @@ def get_highlight_by_highlight_id(highlight_id):
             'error': 'Highlight not found'
         }), 404
 
-@app.route("/api/search/subreddits/<string:query>")
+@api.route("/api/search/subreddits/<string:query>")
 def get_subreddits(query):
     data = []
     subreddits = search_subreddits(query)
     for subreddit in subreddits:
         result = serialize_subreddit(subreddit)
         if result is not None:
-            data.append(result)
+            data.apiend(result)
     sorted_results = sorted(data, key=lambda x: x['subscribers'], reverse=True)
     return jsonify({
         'search_results': sorted_results
         })
 
-@app.route("/directory/leagues/all", methods=["GET"])
+@api.route("/directory/leagues/all", methods=["GET"])
 def league_directory():
     return jsonify({
         'directory_data': load_directory(),
     })
 
-@app.route("/directory/subreddit/<string:subreddit>", methods=["GET"])
+@api.route("/directory/subreddit/<string:subreddit>", methods=["GET"])
 def subreddit_directory(league, filter='week'):
     all_highlights = []
     for team in leagues[league]:
@@ -205,71 +203,20 @@ def subreddit_directory(league, filter='week'):
         'highlights': sorted_highlights,
     })
 
-@app.route("/api/img/<string:subreddit>", methods=["GET"])
+@api.route("/api/img/<string:subreddit>", methods=["GET"])
 def get_subreddit_icon(subreddit):
     return jsonify({
         'img_url': get_icon(subreddit),
     })
 
-@app.route("/test")
+@api.route("/test")
 def test():
     data = get_test_data()
     return jsonify({
         'test_data': data
     })
 
-
-client_bp = Blueprint('client',
-    __name__,
-    static_folder=os.path.join(os.path.dirname(__file__), 'dist'),
-    template_folder=os.path.join(os.path.dirname(__file__), 'dist'),
-    static_url_path='/'
-    )
-
-@client_bp.route('/img/<path:filename>')
-def serve_images(filename):
-    from flask import send_from_directory
-    return send_from_directory(os.path.join(client_bp.static_folder, 'img'), filename)
-
-@client_bp.route('/_nuxt/<path:filename>')
-def serve_nuxt_assets(filename):
-    from flask import send_from_directory
-    return send_from_directory(os.path.join(client_bp.static_folder, '_nuxt'), filename)
-
-@client_bp.route('/', defaults={'path': ''})
-@client_bp.route('/<path:path>')
-@client_bp.route('/<string:path>')
-def index(path=''):
-    try:
-        return render_template('index.html')
-    except:
-        # Fallback: serve directly from file
-        from flask import send_from_directory
-        dist_path = os.path.join(os.path.dirname(__file__), 'dist')
-        try:
-            return send_from_directory(dist_path, 'index.html')
-        except:
-            # Last resort: return inline HTML
-            return '''
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>App Loading...</title>
-            </head>
-            <body>
-                <div id="app">Loading...</div>
-                <script>
-                    // Try to load the actual app
-                    fetch('/api/status')
-                        .then(r => r.json())
-                        .then(d => console.log('API is working:', d))
-                        .catch(e => console.log('API error:', e));
-                </script>
-            </body>
-            </html>
-            '''
-
-# Initialize database indexes when the app starts
+# Initialize database indexes when the api starts
 try:
     create_indexes()
 except Exception as e:

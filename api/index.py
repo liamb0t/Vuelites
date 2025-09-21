@@ -1,6 +1,7 @@
 import os
 import sys
 from flask import Flask, send_from_directory
+from flask_cors import CORS
 
 # Add the backend directory to Python path for API imports
 backend_path = os.path.join(os.path.dirname(__file__), '..', 'backend')
@@ -12,15 +13,18 @@ dist_dir = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
 # Create new Flask app instance that serves Nuxt frontend
 app = Flask(__name__, static_folder=dist_dir, static_url_path="")
 
-# Import and register your existing API routes
-from flask_api.main.routes import main
-from flask_api import app as original_app
+CORS(app, origins=[
+    'http://localhost:3000',
+    'https://goalrush-six.vercel.app',
+    'https://goalrush-git-main-liam-mclaughlins-projects.vercel.app',
+    'https://goalrush-b26xszc68-liam-mclaughlins-projects.vercel.app'
+])
 
-# Copy configuration from original app
-app.config.update(original_app.config)
+# Import and register your existing API routes
+from backend.flask_api.main.routes import api
 
 # Register API blueprints
-app.register_blueprint(main, url_prefix='/api')
+app.register_blueprint(api)
 
 # Root: serve Nuxt index.html
 @app.route("/")

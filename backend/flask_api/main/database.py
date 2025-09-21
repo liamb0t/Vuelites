@@ -1,7 +1,7 @@
 import uuid
 import hashlib
 from datetime import datetime, timedelta
-from flask_api import search_results_collection, search_cache_collection
+from backend.flask_api.main.config import search_results_collection, search_cache_collection
 
 def generate_highlight_id():
     """Generate a unique highlight ID for database storage"""
