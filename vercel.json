@@ -6,8 +6,11 @@
       "use": "@vercel/python"
     },
     {
-      "src": "frontend/dist/**",
-      "use": "@vercel/static"
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "frontend/dist"
+      }
     }
   ],
   "routes": [
@@ -16,20 +19,8 @@
       "dest": "api/index.py"
     },
     {
-      "src": "/_nuxt/(.*)",
-      "dest": "frontend/dist/_nuxt/$1"
-    },
-    {
-      "src": "/img/(.*)",
-      "dest": "frontend/dist/img/$1"
-    },
-    {
-      "src": "/(favicon.ico|robots.txt)",
-      "dest": "frontend/dist/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "api/index.py"
+      "dest": "frontend/dist/$1"
     }
   ]
 }
