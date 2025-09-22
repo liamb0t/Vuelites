@@ -34,13 +34,5 @@ def index():
 # Catch-all for frontend routes (but NOT /api/)
 @app.route("/<path:path>")
 def serve_file(path):
-    # Don’t intercept API requests
-    if path.startswith("api/"):
-        return "Not Found", 404
-
-    file_path = os.path.join(dist_dir, path)
-    if os.path.exists(file_path) and os.path.isfile(file_path):
-        return send_from_directory(dist_dir, path)
-
     # Fallback to SPA entry point
     return send_from_directory(dist_dir, "index.html")
