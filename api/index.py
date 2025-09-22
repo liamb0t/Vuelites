@@ -1,6 +1,5 @@
 import os
 import sys
-from aiohttp import request
 from flask import Flask, send_from_directory
 from flask_cors import CORS
 
@@ -27,25 +26,15 @@ from backend.flask_api.main.routes import api
 # Register API blueprints
 app.register_blueprint(api)
 
-# Serve static assets
-@app.route("/_nuxt/<path:filename>")
-def nuxt_assets(filename):
-    return send_from_directory(os.path.join(dist_dir, "_nuxt"), filename)
+# Root: serve Nuxt index.html
+@app.route("/")
+def index():
+    return send_from_directory(dist_dir, "index.html")
 
-@app.route("/img/<path:filename>")
-def img_assets(filename):
-    return send_from_directory(os.path.join(dist_dir, "img"), filename)
-
-@app.route("/favicon.ico")
-@app.route("/robots.txt")
-def static_root_files():
-    return send_from_directory(dist_dir, request.path.lstrip("/"))
-
-# Catch-all for Nuxt SPA
-@app.route("/", defaults={"path": ""})
+# Catch-all for frontend routes (but NOT /api/)
 @app.route("/<path:path>")
-def spa_fallback(path):
-    # Don’t let SPA catch /api routes
+def serve_file(path):
+    # Don’t intercept API requests
     if path.startswith("api/"):
         return "Not Found", 404
 
@@ -53,5 +42,5 @@ def spa_fallback(path):
     if os.path.exists(file_path) and os.path.isfile(file_path):
         return send_from_directory(dist_dir, path)
 
-    # Always return Nuxt index.html for SPA routing
+    # Fallback to SPA entry point
     return send_from_directory(dist_dir, "index.html")

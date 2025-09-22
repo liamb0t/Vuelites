@@ -19,20 +19,8 @@
       "dest": "api/index.py"
     },
     {
-      "src": "/_nuxt/(.*)",
-      "dest": "api/index.py"
-    },
-    {
-      "src": "/img/(.*)",
-      "dest": "api/index.py"
-    },
-    {
-      "src": "/(favicon.ico|robots.txt)",
-      "dest": "api/index.py"
-    },
-    {
       "src": "/(.*)",
-      "dest": "api/index.py"
+      "dest": "frontend/dist/$1"
     }
   ]
 }
