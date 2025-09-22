@@ -25,7 +25,7 @@ export const useHighlights = () => {
     }
 
     const searchHighlights = async (searchQuery: string, query: Object) => {
-        const {data, status} = useFetch<Object>(`/api/highlights/search/${searchQuery}`, {
+        const {data, status} = await useFetch<Object>(`/api/highlights/search/${searchQuery}`, {
             baseURL: baseURL,
             query: query
         })
