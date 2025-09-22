@@ -33,12 +33,8 @@ try:
     mdb_username = os.getenv('MONGODB_USERNAME')
     mdb_password = os.getenv('MONGODB_PASSWORD')
     mdb_cluster = os.getenv('MONGODB_CLUSTER', 'cluster0.kh4xxy0.mongodb.net')
-    uri = f"mongodb+srv://{mdb_username}:{mdb_password}@{mdb_cluster}/?retryWrites=true&w=majority&appName=Cluster0&ssl=true&ssl_cert_reqs=CERT_NONE"
-    mongo_client = MongoClient(uri, 
-                              serverSelectionTimeoutMS=5000,
-                              connectTimeoutMS=20000,
-                              socketTimeoutMS=20000,
-                              maxPoolSize=50)
+    uri = f"mongodb+srv://{mdb_username}:{mdb_password}@{mdb_cluster}/?retryWrites=true&w=majority&appName=Cluster0"
+    mongo_client = MongoClient(uri)
     
     # Connect to the goalrush database
     db = mongo_client.goalrush
