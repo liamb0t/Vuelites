@@ -41,7 +41,7 @@ const closeResults = () => {
 }
 
 const onFocus = () => {
-    if (query.value.trim() !== '' && results.value && results.value.data.search_results.length > 0) {
+    if (query.value.trim() !== '' && results.value && results.value.data && results.value.data.search_results && results.value.data.search_results.length > 0) {
         showResults.value = true
     }
 }
@@ -69,7 +69,7 @@ watch(query, (newVal) => {
             'w-full text-sm p-2 rounded-full border border-gray-800 bg-gray-900 pl-9 text-white placeholder:text-gray-400 focus-visible:ring focus-visible:outline-none',
             `focus-visible:ring-${activeLeague?.color?.replace('text-', '') || 'emerald-400'}`
         ]" @focus="onFocus" />
-        <div v-if="showResults && results && results.data.search_results.length > 0"
+        <div v-if="showResults && results && results.data && results.data.search_results && results.data.search_results.length > 0"
             class="absolute z-10 mt-2 w-full rounded-md bg-gray-800 shadow-lg overflow-hidden">
             <ul class="max-h-96 overflow-y-auto">
                 <li v-for="result in results.data.search_results" :key="result.id"
