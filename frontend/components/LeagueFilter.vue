@@ -29,7 +29,7 @@ watch(() => route.params.league, (newValue) => {
             <div class="relative w-full flex md:items-center md:justify-center">
                 <NuxtLink :external="false" :to="'/' + league.id" v-for="league in leagues" :key="league.id"
                     class="hover:cursor-pointer" :class="[
-                        'relative py-4 px-4.5 text-sm font-medium transition-colors text-nowrap',
+                        'relative py-4 px-4.5 md:px-6 lg:px-12 text-sm font-medium transition-colors text-nowrap',
                         activeLeague.id === league.id ? 'text-white' : 'text-gray-400 hover:bg-gray-900'
                     ]">
                     {{ league.name }}
