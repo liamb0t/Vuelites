@@ -1,5 +1,5 @@
 export type QueryParams = {
-    sort: 'top' | 'new' | 'hot'
-    time: 'all' | 'day' | 'hour' | 'month' | 'week' | 'year'
+    sort: 'top' | 'best' | 'new' | 'hot'
+    time: 'all' | 'day' | 'month' | 'week' | 'year'
     after: string
 }

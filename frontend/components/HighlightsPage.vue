@@ -14,7 +14,7 @@ const initTime = route.query.time as string
 
 const searchQuery = ref<QueryParams>({
     sort: (['top', 'best', 'new', 'hot'].includes(initSort) ? initSort : 'top') as any,
-    time: (['today', 'week', 'month', 'year', 'all'].includes(initTime) ? initTime : 'week') as any,
+    time: (['day', 'week', 'month', 'year', 'all'].includes(initTime) ? initTime : 'week') as any,
     after: '2023-10-01'
 })
 
@@ -40,7 +40,7 @@ watch(() => route.query, (newQuery) => {
         searchQuery.value.sort = 'top'
     }
 
-    if (time && ['today', 'week', 'month', 'year', 'all'].includes(time)) {
+    if (time && ['day', 'week', 'month', 'year', 'all'].includes(time)) {
         searchQuery.value.time = time as any
     } else {
         searchQuery.value.time = 'week'
@@ -81,9 +81,9 @@ onUnmounted(() => {
         <div class="container flex flex-wrap gap-2 justify-end py-4"
             :class="highlights.status === 'pending' ? 'opacity-0' : 'opacity-100'">
             <PopularityFilter :active-league="activeLeague" v-model="searchQuery.sort" />
-            <TimeFilter :active-league="activeLeague" v-model="searchQuery.time" />
+            <TimeFilter v-if="searchQuery.sort === 'top'" :active-league="activeLeague" v-model="searchQuery.time" />
         </div>
-        <div class="flex flex-col gap-8 max-w-3xl mx-auto flex-1">
+        <div class="flex flex-col gap-8 max-w-3xl mx-auto flex-1 px-4 md:px-0">
             <LoadingHighlights v-if="highlights.status === 'pending'" :active-league="activeLeague" />
             <Transition name="fade-in" appear>
                 <div v-if="highlights.status === 'success'" class="flex flex-col gap-8">

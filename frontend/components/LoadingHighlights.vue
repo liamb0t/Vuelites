@@ -11,12 +11,13 @@ const props = defineProps({
 </script>
 
 <template>
-    <div class="fixed inset-0 top-[120px] flex items-center justify-center z-30">
+    <div class="fixed inset-0 md:top-[120px] flex items-center justify-center z-30">
         <div class="relative w-[200px] h-[200px] p-4 flex gap-4 flex-col items-center justify-center">
             <AnimatePresence mode="wait">
                 <Motion :key="activeLeague.id" :initial="{ opacity: 0 }" :animate="{ opacity: 1 }"
                     :exit="{ opacity: 0 }" :transition="{ duration: 0.1 }" class="flex items-center justify-center">
-                    <img v-if="activeLeague.logo" class="size-32 rounded-lg object-cover" :src="activeLeague.logo" alt="">
+                    <img v-if="activeLeague.logo" class="size-32 rounded-lg object-cover" :src="activeLeague.logo"
+                        alt="">
                     <div v-else class="flex items-center justify-center gap-x-2">
                         <Trophy class="size-24 text-emerald-400" />
                     </div>

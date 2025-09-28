@@ -25,8 +25,8 @@ watch(() => route.params.league, (newValue) => {
 
 <template>
     <div class="no-scrollbar w-full overflow-x-auto">
-        <nav class="flex container border-gray-800 transition-all duration-200">
-            <div class="relative w-full flex">
+        <nav class="flex border-gray-800 transition-all duration-200">
+            <div class="relative w-full flex md:items-center md:justify-center">
                 <NuxtLink :external="false" :to="'/' + league.id" v-for="league in leagues" :key="league.id"
                     class="hover:cursor-pointer" :class="[
                         'relative py-4 px-4.5 text-sm font-medium transition-colors text-nowrap',
@@ -36,7 +36,7 @@ watch(() => route.params.league, (newValue) => {
                     <Motion v-if="activeLeague.id === league.id" layout-id="underline" :class="league.bgColor"
                         class="absolute bottom-0 left-0 right-0 h-[2px]" />
                 </NuxtLink>
-                <div class="absolute bottom-0 rounded-lg left-0 right-0 h-[2px] opacity-30 transition-colors duration-300"
+                <div class="hidden md:block absolute bottom-0 rounded-lg left-0 right-0 h-[2px] opacity-30 transition-colors duration-300"
                     :class="activeLeague.bgColor" />
             </div>
         </nav>

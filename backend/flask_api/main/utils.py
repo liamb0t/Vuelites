@@ -1,4 +1,4 @@
-from backend.flask_api.main.config import reddit, headers
+from flask_api.main.config import reddit, headers
 import requests
 from bs4 import BeautifulSoup as bs
 from datetime import datetime
@@ -120,6 +120,8 @@ def serialize(post, video_url, content_type):
 
 def get_posts(subreddit, sort, time_filter, limit, params):
     if sort == 'top':
+        return subreddit.top(time_filter=time_filter, limit=limit, params=params)
+    elif sort == 'best':
         return subreddit.top(time_filter=time_filter, limit=limit, params=params)
     elif sort == 'new':
         return subreddit.new(limit=limit, params=params)

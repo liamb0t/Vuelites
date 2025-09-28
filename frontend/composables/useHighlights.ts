@@ -1,5 +1,6 @@
 export const useHighlights = () => {
-    const baseURL = ''
+    // Use localhost:5001 for development, empty string for production (Vercel)
+    const baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:5001' : ''
     
     const getLeagueHighlights = async (league: string, query: Object) => {
         const {data, status} = useFetch<Object>(`/api/highlights/league/${league}`, {

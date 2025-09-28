@@ -11,10 +11,10 @@ const props = defineProps({
 const value = defineModel()
 
 const items = [
-    { value: "today", label: "Today" },
-    { value: "week", label: "This Week" },
-    { value: "month", label: "This Month" },
-    { value: "year", label: "This Year" },
+    { value: "day", label: "Past Day" },
+    { value: "week", label: "Past Week" },
+    { value: "month", label: "Past Month" },
+    { value: "year", label: "Past Year" },
     { value: "all", label: "All Time" },
 ]
 </script>

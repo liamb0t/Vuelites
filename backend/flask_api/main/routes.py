@@ -1,5 +1,5 @@
-from flask import jsonify, request, Blueprint, json, render_template
-from backend.flask_api.main.config import r
+from flask import jsonify, request, Blueprint, json
+from flask_api.main.config import r
 from flask_api.main.teams import leagues
 from flask_api.main.utils import get_highlights, get_comments, get_redditor_profile, \
     get_redditor_submissions, search, load_directory, search_subreddits, \
@@ -64,11 +64,11 @@ def highlights_league(league):
     })
 
 
-@api.route("/api/comments/<string:id>/<string:sort>")
-def comments(id, sort='top'):
-    return jsonify({
-        'comments': get_comments(id, sort)
-    })
+# @api.route("/api/comments/<string:id>/<string:sort>")
+# def comments(id, sort='top'):
+#     return jsonify({
+#         'comments': get_comments(id, sort)
+#     })
   
 @api.route("/api/redditor/<string:username>")
 def redditor_profile(username):

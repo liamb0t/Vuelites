@@ -212,13 +212,14 @@ onUnmounted(() => {
 
 <template>
     <div :class="[
-        'relative h-[60dvh] overflow-hidden bg-transparent rounded-md transition-all w-full group',
+        'relative h-[75dvh] md:h-[60dvh] overflow-hidden bg-transparent rounded-md transition-all w-full group',
         `hover:shadow-[0_0_15px_rgba(${activeLeague?.gradientColor || '52,211,153'},0.3)]`
     ]">
         <div class="relative w-full h-full">
             <video ref="videoRef" :src="highlight.video_url" :alt="highlight.title"
                 class="w-full h-full object-cover cursor-pointer" loop @click="playCurrentVideo" />
             <audio ref="audioRef" :src="highlight.audio_url" class="hidden" loop />
+
 
             <!-- Feedback Icon - only shows briefly when state changes -->
             <div class="absolute inset-0 flex items-center justify-center pointer-events-none transition-all duration-200"

@@ -12,6 +12,12 @@ const props = defineProps({
 
 const emit = defineEmits(['openComments', 'toggleMute', 'goFullscreen'])
 
+// Handle image loading errors
+const imageError = ref(false)
+const handleImageError = () => {
+    imageError.value = true
+}
+
 const toggleMute = () => {
     isMuted.value = !isMuted.value
     emit('toggleMute')
@@ -69,7 +75,7 @@ function download() {
         </HighlightSidebarButton>
 
         <!-- Comments -->
-        <HighlightSidebarButton @click="$emit('openComments')">
+        <HighlightSidebarButton>
             <template #icon>
                 <MessageCircle class="size-6 text-secondary" alt="comments" />
             </template>
@@ -98,7 +104,17 @@ function download() {
 
         <a :href="`https://reddit.com/r/${highlight.subreddit}`" target="_blank">
             <div class="flex text-white text-sm font-semibold items-center gap-2">
-                <img class="size-12 rounded-full" :src="highlight.community_icon" alt="">
+                <div v-if="!imageError && highlight.community_icon" class="size-12 rounded-full overflow-hidden bg-gray-700">
+                    <img 
+                        class="size-12 rounded-full object-cover" 
+                        :src="highlight.community_icon" 
+                        :alt="`r/${highlight.subreddit}`"
+                        @error="handleImageError"
+                    >
+                </div>
+                <div v-else class="size-12 rounded-full bg-gray-700 flex items-center justify-center text-white text-sm font-bold">
+                    r/
+                </div>
             </div>
         </a>
     </div>

@@ -4,6 +4,17 @@ import redis
 import pymongo
 from pymongo import MongoClient
 
+# Load environment variables from .env file
+try:
+    from dotenv import load_dotenv
+    # Load from project root (go up to vuelites directory)
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..'))
+    env_path = os.path.join(project_root, '.env')
+    load_dotenv(env_path)
+    print(f"Loading .env from: {env_path}")
+except ImportError:
+    print("python-dotenv not installed, using system environment variables")
+
 ### setting up the Reddit Instance
 
 headers = {

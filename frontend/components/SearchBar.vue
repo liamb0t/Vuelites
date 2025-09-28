@@ -9,7 +9,19 @@ const query = ref('')
 const results = ref()
 const showResults = ref(false)
 const searchContainer = ref<HTMLElement>()
+const searchInput = ref<HTMLInputElement>()
 const isLoading = ref(false)
+
+// Expose focus method for parent components
+const focusInput = () => {
+    if (searchInput.value) {
+        searchInput.value.focus()
+    }
+}
+
+defineExpose({
+    focusInput
+})
 
 const activeLeagueId = computed(() => route.params.league || 'soccer')
 const activeLeague = computed(() => {
@@ -59,13 +71,14 @@ watch(query, (newVal) => {
         closeResults()
     }
 })
+
 </script>
 <template>
     <div ref="searchContainer" class="relative w-full max-w-lg md:block">
-        <Search v-if="!isLoading" class="absolute left-2.5 top-3 h-4 w-4 text-gray-400" />
+        <Search v-if="!isLoading" class="absolute left-2.5 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
         <Loader2 v-if="isLoading"
-            :class="['absolute left-2.5 top-3 h-4 w-4 animate-spin', activeLeague?.color || 'text-emerald-400']" />
-        <input v-model="query" type="search" placeholder="Search highlights" :class="[
+            :class="['absolute left-2.5 top-1/2 transform -translate-y-1/2 h-4 w-4 animate-spin', activeLeague?.color || 'text-emerald-400']" />
+        <input ref="searchInput" v-model="query" type="search" placeholder="Search highlights" :class="[
             'w-full text-sm p-2 rounded-full border border-gray-800 bg-gray-900 pl-9 text-white placeholder:text-gray-400 focus-visible:ring focus-visible:outline-none',
             `focus-visible:ring-${activeLeague?.color?.replace('text-', '') || 'emerald-400'}`
         ]" @focus="onFocus" />
